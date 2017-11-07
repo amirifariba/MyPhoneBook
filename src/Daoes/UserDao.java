@@ -8,7 +8,10 @@ import javax.inject.Named;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+
+import Entities.RoleEntity;
 import Entities.UserEntity;
+import Security.Hash;
 
 @Named("userDao")
 public class UserDao {
@@ -55,24 +58,32 @@ public class UserDao {
 	// password-----------------//
 	public UserEntity validateUser(String username, String password) {
 		Transaction t = null;
-		UserEntity user = null;
+		UserEntity user = new UserEntity();
 		Session session = null;
 		try {
 			session = SessionConfiguration.getSession();
 			t = session.beginTransaction();
-			user = new UserEntity();
-			user = (UserEntity) session
-					.createQuery(
-							"from UserEntity where userName='" + username + "'" + "and password='" + password + "'")
+
+			user = (UserEntity) session.createQuery(
+					"from UserEntity where userName='" + username + "'" + "and password='" + password + "'")
 					.uniqueResult();
 			t.commit();
+			if (user == null)
+				throw new NullPointerException();
+
+		} catch (NullPointerException e) {
+			user = new UserEntity("guest", "81dc9bdb52d04dc20036dbd8313ed055", new RoleEntity(4, "guest"));
+			System.out.println("user or pass is not valid");
 			return user;
+
 		} catch (HibernateException e) {
 			t.rollback();
+
 		} finally {
 			session.close();
+			return user;
 		}
-		return user;
+
 	}
 
 	// ------------------find all users---------------------//

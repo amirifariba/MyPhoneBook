@@ -1,15 +1,19 @@
 package Entities;
 
+import java.security.Principal;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import Security.Hash;
 
 @Entity
 @Table(name = "USER")
-public class UserEntity implements Pojo {
+public class UserEntity implements Pojo,Principal {
 
 	@Id
 	@GeneratedValue
@@ -22,8 +26,8 @@ public class UserEntity implements Pojo {
 	@Column(name = "password", nullable = false)
 	private String password;
 
-	@Column(name = "roleId", columnDefinition = "int default '3'")
-	private int roleId = 3;
+	@ManyToOne(cascade = CascadeType.ALL)
+	private RoleEntity role=new RoleEntity();
 
 	public int getUserId() {
 		return userId;
@@ -57,21 +61,28 @@ public class UserEntity implements Pojo {
 
 	}
 
-	public int getRoleId() {
-		return roleId;
+	public RoleEntity getRole() {
+		return role;
 	}
 
-	public void setRoleId(int roleId) {
-		this.roleId = roleId;
+	public void setRole(RoleEntity role) {
+		this.role = role;
 	}
 
 	public UserEntity() {
 	}
 
-	public UserEntity(String userName, String password, int roleId) {
+	public UserEntity(int userId, String userName, String password, RoleEntity role) {
+		this.userId = userId;
+		this.userName = userName;
+		this.password = password;
+		this.role.CopyRole(role);
+	}
+
+	public UserEntity(String userName, String password, RoleEntity role) {
 		this.userName = userName;
 		this.setPassword(password);
-		this.roleId = roleId;
+		this.role.CopyRole(role);
 	}
 
 	public UserEntity(String userName, String password) {
@@ -83,15 +94,14 @@ public class UserEntity implements Pojo {
 	public void copyUser(UserEntity user) {
 		this.userName = user.userName;
 		this.password = user.password;
-		this.roleId = user.roleId;
+		this.role.CopyRole(user.role);;
 		this.userId = user.userId;
 	}
 
-	public UserEntity(int userId, String userName, String password, int roleId) {
-		this.userId = userId;
-		this.userName = userName;
-		this.setPassword(password);
-		this.roleId = roleId;
+	@Override
+	public String getName() {
+		// TODO Auto-generated method stub
+		return this.userName;
 	}
 
 }

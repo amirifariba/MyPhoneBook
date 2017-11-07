@@ -7,9 +7,14 @@ import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
 import org.glassfish.jersey.client.ClientConfig;
+import org.glassfish.jersey.filter.LoggingFilter;
+import org.glassfish.jersey.internal.util.Base64;
+
 import Entities.ContactEntity;
 import Entities.Pojo;
+//import ServiceImplement.AuthenticationFilter;
 
 public class ContactClient implements RestClient {
 
@@ -54,7 +59,6 @@ public class ContactClient implements RestClient {
 	public ContactEntity[] selectAll() {
 		ContactEntity[] contacts = null;
 		Client client = ClientBuilder.newClient(clientConfig);
-<<<<<<< HEAD
 		// "http://localhost:8080/MyPhoneBook3/api/"
 		WebTarget webTarget = client.target("http://" + this.ip + ":8080/MyPhoneBook3/api/").path("contact");
 		Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON).header("Authorization",
@@ -71,14 +75,6 @@ public class ContactClient implements RestClient {
 //		 ContactEntity[] contactEntities = new ContactEntity[0];
 //			return contactEntities; 
 //		}
-=======
-		WebTarget webTarget = client.target("http://localhost:8080/MyPhoneBook3/api/").path("contact");
-		Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON);
-		Response response = invocationBuilder.get();
-		if (response.getStatus() == 200) {
-			contacts = response.readEntity(ContactEntity[].class);
-		}
->>>>>>> parent of 2864ceb... faze 2: swing is not completed
 		return contacts;
 	}
 
@@ -96,17 +92,11 @@ public class ContactClient implements RestClient {
 
 	public boolean Update(int id, Pojo contact) {
 		String id1 = Integer.toString(id);
-<<<<<<< HEAD
 		// Client client = ClientBuilder.newClient(clientConfig);
 		Client client = ClientBuilder.newClient(new ClientConfig().register(new LoggingFilter()));
 		WebTarget webTarget = client.target("http://" + this.ip + ":8080/MyPhoneBook3/api/").path("contact").path(id1);
 		Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON).header("Authorization",
 				"Basic" + authoEncode());
-=======
-		Client client = ClientBuilder.newClient(clientConfig);
-		WebTarget webTarget = client.target("http://localhost:8080/MyPhoneBook3/api/").path("contact").path(id1);
-		Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON);
->>>>>>> parent of 2864ceb... faze 2: swing is not completed
 		Response response = invocationBuilder.put(Entity.entity(contact, MediaType.APPLICATION_JSON));
 		// ContactEntity contact1= response.readEntity(ContactEntity.class);
 
@@ -149,10 +139,9 @@ public class ContactClient implements RestClient {
 			return false;
 	}
 
-	ContactClient() {
+	public ContactClient() {
 	}
 
-<<<<<<< HEAD
 	public ContactClient(String ip, String user, String pass) {
 		this.ip = ip;
 		this.user = user;
@@ -164,6 +153,4 @@ public class ContactClient implements RestClient {
 		String authStringEnc = Base64.encodeAsString(authString);
 		return authStringEnc;
 	}
-=======
->>>>>>> parent of 2864ceb... faze 2: swing is not completed
 }

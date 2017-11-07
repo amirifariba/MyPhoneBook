@@ -33,6 +33,7 @@
 		<mapping class="Entities.ContactEntity" />
 		<mapping class="Entities.UserEntity" />
 		<mapping class="Entities.EventEntity" />
-
+		<mapping class="Entities.RoleEntity" />
+		<mapping class="Entities.Feature" />
 	</session-factory>
 </hibernate-configuration>

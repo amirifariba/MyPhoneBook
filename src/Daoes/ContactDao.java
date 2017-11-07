@@ -32,9 +32,9 @@ public class ContactDao {
 			System.out.println("not added");
 			return success;
 
-		} /*
-			 * finally { session.close(); }
-			 */
+		} finally {
+			session.close();
+		}
 
 	}
 

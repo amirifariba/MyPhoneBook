@@ -1,5 +1,7 @@
 package RestClient;
 
+import java.util.List;
+
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -9,6 +11,11 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.glassfish.jersey.client.ClientConfig;
+import org.glassfish.jersey.internal.util.Base64;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import Entities.Pojo;
 import Entities.UserEntity;
 
@@ -122,26 +129,19 @@ public class UserClient implements RestClient {
 			return false;
 	}
 
-<<<<<<< HEAD
 	public String validateUser() {
 		UserEntity user = new UserEntity(this.user, this.pass);
 		String roleName;
-=======
-	public UserEntity validateUser(String username,String password) {
-		UserEntity user=new UserEntity(username,password);
-		UserEntity validateUser = null;
->>>>>>> parent of 2864ceb... faze 2: swing is not completed
 		Client client = ClientBuilder.newClient(clientConfig);
 		WebTarget webTarget = client.target("http://" + this.ip + ":8080/MyPhoneBook3/api").path("user").path("login");
 		Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON);
 		Response response = invocationBuilder.post(Entity.entity(user, MediaType.APPLICATION_JSON));
-		int status = response.getStatus();
-		System.out.println(status);
-		if (status == 200) {
-			validateUser = response.readEntity(UserEntity.class);
-			return validateUser;
-		} else
-			return null;
-	}
+		UserEntity user1 = response.readEntity(UserEntity.class);
+		roleName = user1.getRole().getRoleName();
+		
+		System.out.println(roleName);
+		return roleName;
 
+	}
+	
 }

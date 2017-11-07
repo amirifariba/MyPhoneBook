@@ -5,21 +5,18 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import java.awt.Font;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
+import javax.swing.table.DefaultTableModel;
+
+import RestClient.ContactClient;
 
 public class ContactPage extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField NameTextField;
-	private JTextField LastNameTextField;
-	private JTextField MobileNumberTextField;
-	private JTextField HomeNumberTextField;
-	private JTextField EmailTextField;
+	private JTable table;
 
 	/**
 	 * Launch the application.
@@ -42,23 +39,33 @@ public class ContactPage extends JFrame {
 	 */
 	public ContactPage() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 563, 410);
+		setBounds(100, 100, 567, 404);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel ContactNameLabel = new JLabel(" Name");
-		ContactNameLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		ContactNameLabel.setBounds(0, 10, 46, 23);
-		contentPane.add(ContactNameLabel);
+		table = new JTable();
+		String[] column=new String[] { "Name", "Last name", "Mobile Number", "Home Number", "Email" };
 		
-		NameTextField = new JTextField();
-		NameTextField.setBounds(99, 10, 155, 26);
-		contentPane.add(NameTextField);
-		NameTextField.setColumns(10);
+		contentPane.setLayout(null);
+		table.setModel(new DefaultTableModel(getData(),column) {
+			Class[] columnTypes = new Class[] {
+				String.class, String.class, String.class, String.class, String.class
+			};
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+		});
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		table.setBounds(21, 359, 520, -192);
+		table.setCellSelectionEnabled(true);
+		//table.setVisible(true);
+		//contentPane.add(table);
+		JScrollPane scrollPane = new JScrollPane(table);
+		scrollPane.setBounds(5, 5, 541, 356);
+		getContentPane().add(scrollPane);
 		
-<<<<<<< HEAD
 	}
 	public String[][] getData(){
 		IOManger io=IOManger.getInstance();
@@ -67,51 +74,12 @@ public class ContactPage extends JFrame {
 		System.out.println(contact.selectAll()[1].getContactName());
 		for (int i = 0; i < contact.selectAll().length; i++) {
 			data[i][0] = contact.selectAll()[i].getContactName();
-=======
-		JButton InsertButton = new JButton("Insert");
-		InsertButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		InsertButton.setBounds(327, 78, 155, 33);
-		contentPane.add(InsertButton);
 		
-		JLabel label = new JLabel(" LastName");
-		label.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		label.setBounds(272, 10, 73, 22);
-		contentPane.add(label);
-		
-		LastNameTextField = new JTextField();
-		LastNameTextField.setColumns(10);
-		LastNameTextField.setBounds(371, 11, 155, 25);
-		contentPane.add(LastNameTextField);
-		
-		JLabel label_1 = new JLabel(" Mobile Number");
-		label_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		label_1.setBounds(272, 43, 101, 24);
-		contentPane.add(label_1);
-		
-		MobileNumberTextField = new JTextField();
-		MobileNumberTextField.setColumns(10);
-		MobileNumberTextField.setBounds(371, 44, 155, 26);
-		contentPane.add(MobileNumberTextField);
-		
-		JLabel label_2 = new JLabel(" Home Number");
-		label_2.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		label_2.setBounds(0, 44, 101, 24);
-		contentPane.add(label_2);
-		
-		HomeNumberTextField = new JTextField();
-		HomeNumberTextField.setColumns(10);
-		HomeNumberTextField.setBounds(99, 46, 155, 26);
-		contentPane.add(HomeNumberTextField);
-		
-		JLabel label_3 = new JLabel(" Email Address");
-		label_3.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		label_3.setBounds(0, 79, 101, 24);
-		contentPane.add(label_3);
->>>>>>> parent of 2864ceb... faze 2: swing is not completed
-		
-		EmailTextField = new JTextField();
-		EmailTextField.setColumns(10);
-		EmailTextField.setBounds(99, 80, 155, 26);
-		contentPane.add(EmailTextField);
+			data[i][1] = contact.selectAll()[i].getContactLastName();
+			data[i][2] = contact.selectAll()[i].getPhoneNumber();
+			data[i][3] = contact.selectAll()[i].getHomePhoneNumber();
+			data[i][4] = contact.selectAll()[i].getEmail();
+		}
+		return data;
 	}
 }

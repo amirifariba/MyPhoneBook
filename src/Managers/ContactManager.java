@@ -1,14 +1,8 @@
 package Managers;
 
 import java.util.List;
-
-import javax.inject.Inject;
-
 import Entities.ContactEntity;
-import javax.inject.Named;
-
 import Daoes.ContactDao;
-
 public class ContactManager {
 	ContactDao dao = new ContactDao();
 
