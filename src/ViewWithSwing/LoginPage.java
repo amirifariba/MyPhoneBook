@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import RestClient.UserClient;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import java.awt.Font;
 import javax.swing.JPasswordField;
@@ -42,7 +43,7 @@ public class LoginPage extends JFrame {
 	 * Create the frame.
 	 */
 	public LoginPage() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -81,19 +82,25 @@ public class LoginPage extends JFrame {
 		JButton signInButton = new JButton("sign in");
 		signInButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				UserClient user=new UserClient();
-				user.validateUser(userNameTextField.getText(),passwordField.getText());
-			
-				
+				UserClient user=new UserClient(	IPAddressTextField.getText(),userNameTextField.getText(),passwordField.getText());
+				String roleName=user.validateUser();
+				if(roleName.equals("guest"))
+				{
+					JOptionPane.showMessageDialog(null, "user or pass is not valid");
+				}
+				else
+				{
+					JOptionPane.showMessageDialog(null, "welcome");
+					new InsertContact().setVisible(true);
+					dispose();
+			IOManger.getInstance().setUser(userNameTextField.getText());
+			IOManger.getInstance().setPass(passwordField.getText());
+			IOManger.getInstance().setIp(IPAddressTextField.getText());
+				}	
 			}
 		});
 		signInButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		signInButton.setBounds(130, 207, 89, 30);
+		signInButton.setBounds(191, 210, 89, 30);
 		contentPane.add(signInButton);
-		
-		JButton SignUpbutton = new JButton("sign up");
-		SignUpbutton.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		SignUpbutton.setBounds(255, 207, 89, 30);
-		contentPane.add(SignUpbutton);
 	}
 }

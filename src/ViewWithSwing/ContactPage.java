@@ -58,6 +58,16 @@ public class ContactPage extends JFrame {
 		contentPane.add(NameTextField);
 		NameTextField.setColumns(10);
 		
+<<<<<<< HEAD
+	}
+	public String[][] getData(){
+		IOManger io=IOManger.getInstance();
+		ContactClient contact=new ContactClient(io.getIp(),io.getUser(),io.getPass());
+		String[][] data = new String[contact.selectAll().length][5];
+		System.out.println(contact.selectAll()[1].getContactName());
+		for (int i = 0; i < contact.selectAll().length; i++) {
+			data[i][0] = contact.selectAll()[i].getContactName();
+=======
 		JButton InsertButton = new JButton("Insert");
 		InsertButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		InsertButton.setBounds(327, 78, 155, 33);
@@ -97,6 +107,7 @@ public class ContactPage extends JFrame {
 		label_3.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		label_3.setBounds(0, 79, 101, 24);
 		contentPane.add(label_3);
+>>>>>>> parent of 2864ceb... faze 2: swing is not completed
 		
 		EmailTextField = new JTextField();
 		EmailTextField.setColumns(10);

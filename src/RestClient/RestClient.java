@@ -3,6 +3,8 @@ package RestClient;
 import Entities.Pojo;
 
 public interface RestClient {
+
+	
 	public Pojo[] selectAll();
 
 	public Pojo selectOne(int id);

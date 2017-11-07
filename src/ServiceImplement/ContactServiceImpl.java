@@ -37,7 +37,13 @@ public class ContactServiceImpl {
 		// entity.getContactId());
 
 	}
+<<<<<<< HEAD
+	
+	
+	@RolesAllowed({ "firstAdmin", "secondAdmin","user","guest"})
+=======
 
+>>>>>>> parent of 2864ceb... faze 2: swing is not completed
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<ContactEntity> selectallContact() {
